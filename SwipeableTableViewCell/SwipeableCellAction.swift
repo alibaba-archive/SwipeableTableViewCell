@@ -11,12 +11,12 @@ import UIKit
 let kSwipeableCellActionDefaultWidth: CGFloat = 90
 
 public struct SwipeableCellAction {
-    var title: NSAttributedString?
-    var image: UIImage?
-    var backgroundColor: UIColor?
-    var action: (Void) -> Void
-    var width: CGFloat = kSwipeableCellActionDefaultWidth
-    var index = 0
+    public var title: NSAttributedString?
+    public var image: UIImage?
+    public var backgroundColor: UIColor?
+    public var action: (Void) -> Void
+    public var width: CGFloat = kSwipeableCellActionDefaultWidth
+    public var index = 0
 
     public init(title: NSAttributedString?, image: UIImage?, backgroundColor: UIColor?, action: (Void) -> Void) {
         self.title = title
