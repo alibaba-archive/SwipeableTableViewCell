@@ -11,7 +11,7 @@ import SwipeableTableViewCell
 
 let kCellID = "SwipeableTableViewCell"
 
-class ExampleViewController: UITableViewController {
+class ExampleViewController: UITableViewController, SwipeableTableViewCellDelegate {
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,16 @@ class ExampleViewController: UITableViewController {
     private func setupUI() {
         navigationItem.title = "SwipeableTableViewCell Example"
     }
-    
+
+    private func showAlert(massage message: String, dismissHandler:(Void) -> Void) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) -> Void in
+            dismissHandler()
+        }
+        alert.addAction(cancelAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
     // MARK: - TableView data source and delegate
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 60
@@ -41,6 +50,7 @@ class ExampleViewController: UITableViewController {
         if cell == nil {
             cell = SwipeableTableViewCell(style: .Default, reuseIdentifier: kCellID)
         }
+        cell!.delegate = self
         if indexPath.row % 6 == 1 {
             let customAccessory = UILabel(frame: CGRectMake(0, 0, 30, 30))
             customAccessory.textAlignment = .Center
@@ -63,7 +73,9 @@ class ExampleViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        showAlert(massage: "Did select cell \(indexPath.row)") { Void in
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
     }
 
     private func accessoryTypeForCellAtIndexPath(indexPath: NSIndexPath) -> UITableViewCellAccessoryType {
@@ -177,13 +189,24 @@ class ExampleViewController: UITableViewController {
         }
     }
 
-    private func showAlert(massage message: String, dismissHandler:(Void) -> Void) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) -> Void in
-            dismissHandler()
-        }
-        alert.addAction(cancelAction)
-        presentViewController(alert, animated: true, completion: nil)
+    // MARK: - SwipeableTableViewCell delegate
+    func swipeableCell(cell: SwipeableTableViewCell, scrollingToState state: SwipeableCellState) {
+        let cellState = state == .Closed ? "closing" : "opening"
+        let cellName = (cell.textLabel?.text)!
+        print("“\(cellName)” is \(cellState)...")
+    }
+
+    func swipeableCellSwipeEnabled(cell: SwipeableTableViewCell) -> Bool {
+        return true
+    }
+
+    func allowMultipleCellsSwipedSimultaneously() -> Bool {
+        return false
+    }
+
+    func swipeableCellDidEndScroll(cell: SwipeableTableViewCell) {
+        let cellName = (cell.textLabel?.text)!
+        print("“\(cellName)” did end scroll!")
     }
 }
 
