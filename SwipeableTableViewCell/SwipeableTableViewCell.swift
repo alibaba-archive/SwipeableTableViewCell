@@ -9,14 +9,15 @@
 import UIKit
 
 let kAccessoryTrailingSpace: CGFloat = 15
+let kTableViewPanState = "state"
 
 public enum SwipeableCellState {
     case Normal
-    case Swiping
+    case Swiped
 }
 
 public protocol SwipeableTableViewCellDelegate {
-    
+
 }
 
 public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
@@ -37,7 +38,6 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     private var containerView: UIView!
     lazy var scrollView: SwipeableCellScrollView = {
         let scrollView = SwipeableCellScrollView()
-        scrollView.backgroundColor = UIColor.greenColor()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.scrollsToTop = false
@@ -54,7 +54,6 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     lazy var actionsView: SwipeableCellActionsView = { [unowned self] in
         let actions = self.actions ?? []
         let actionsView = SwipeableCellActionsView(actions: actions, parentCell: self)
-        actionsView.backgroundColor = UIColor.redColor()
         return actionsView
     }()
     lazy var clipView: UIView = { [unowned self] in
@@ -64,7 +63,9 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         return view
         }()
     private var clipViewConstraint = NSLayoutConstraint()
+    private var layoutUpdating = false
 
+    // MARK: - Life cycle
     override public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureSwipeableCell()
@@ -80,36 +81,197 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         configureSwipeableCell()
     }
 
-    override public func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-    }
-
-    public override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
+        if backgroundColor == UIColor.clearColor() || backgroundColor == nil {
+            containerView.backgroundColor = UIColor.whiteColor()
+        } else {
+            containerView.backgroundColor = backgroundColor
+        }
+
         containerView.frame = contentView.frame
+        containerView.frame.size.width = frame.width
         scrollView.contentSize = CGSizeMake(frame.width + actionsView.frame.width, frame.height)
         if !scrollView.tracking && !scrollView.decelerating {
-            scrollView.contentOffset = contentOffset()
+            scrollView.contentOffset = contentOffset(state: state)
         }
         updateCell()
+    }
+
+    override public func prepareForReuse() {
+        super.prepareForReuse()
+        state = .Normal
+        hideActions(animated: false)
     }
 
     deinit {
         scrollView.delegate = nil
     }
 
+    // MARK: - Overriding
+    override public func didMoveToSuperview() {
+        tableView = nil
+        if let tableView = superview as? UITableView {
+            self.tableView = tableView
+        } else if let tableView = superview?.superview as? UITableView {
+            self.tableView = tableView
+        }
+    }
+
+    override public var frame: CGRect {
+        willSet {
+            layoutUpdating = true
+        }
+        didSet {
+            layoutUpdating = false
+            let widthChanged = frame.width != oldValue.width
+            if widthChanged {
+                layoutIfNeeded()
+            }
+        }
+    }
+
+    override public func setSelected(selected: Bool, animated: Bool) {
+        actionsView.pushBackgroundColors()
+        super.setSelected(selected, animated: animated)
+        actionsView.popBackgroundColors()
+    }
+
+    override public func didTransitionToState(state: UITableViewCellStateMask) {
+        super.didTransitionToState(state)
+        if state == .DefaultMask {
+            layoutSubviews()
+        }
+    }
+
+    // MARK: - TableView related
+    private func removeOldTableViewPanObserver() {
+
+    }
+
+    private func shouldHighlight() -> Bool {
+        if let tableView = tableView, delegate = tableView.delegate {
+            if delegate.respondsToSelector("tableView:shouldHighlightRowAtIndexPath:") {
+                if let cellIndexPath = tableView.indexPathForCell(self) {
+                    return delegate.tableView!(tableView, shouldHighlightRowAtIndexPath: cellIndexPath)
+                }
+            }
+        }
+        return true
+    }
+
+    private func selectCell() {
+        if state == .Swiped {
+            return
+        }
+
+        if let tableView = tableView, delegate = tableView.delegate {
+            var cellIndexPath = tableView.indexPathForCell(self)
+            if delegate.respondsToSelector("tableView:willSelectRowAtIndexPath:") {
+                if let indexPath = cellIndexPath {
+                    cellIndexPath = delegate.tableView!(tableView, willSelectRowAtIndexPath: indexPath)
+                }
+            }
+            if let indexPath = cellIndexPath {
+                tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+                if delegate.respondsToSelector("tableView:didSelectRowAtIndexPath:") {
+                    delegate.tableView!(tableView, didSelectRowAtIndexPath: indexPath)
+                }
+            }
+        }
+    }
+
+    private func deselectCell() {
+        if state == .Swiped {
+            return
+        }
+
+        if let tableView = tableView, delegate = tableView.delegate {
+            var cellIndexPath = tableView.indexPathForCell(self)
+            if delegate.respondsToSelector("tableView:willDeselectRowAtIndexPath:") {
+                if let indexPath = cellIndexPath {
+                    cellIndexPath = delegate.tableView!(tableView, willDeselectRowAtIndexPath: indexPath)
+                }
+            }
+            if let indexPath = cellIndexPath {
+                tableView.deselectRowAtIndexPath(indexPath, animated: false)
+                if delegate.respondsToSelector("tableView:didDeselectRowAtIndexPath:") {
+                    delegate.tableView!(tableView, didDeselectRowAtIndexPath: indexPath)
+                }
+            }
+        }
+    }
+
+    // MARK: - Helper
+    public func showActions(animated animated: Bool) {
+        scrollView.setContentOffset(contentOffset(state: .Swiped), animated: animated)
+    }
+
     public func hideActions(animated animated: Bool) {
-        
+        scrollView.setContentOffset(contentOffset(state: .Normal), animated: animated)
+    }
+
+    private func contentOffset(state state: SwipeableCellState) -> CGPoint {
+        return state == .Swiped ? CGPointMake(actionsView.frame.width, 0) : CGPointZero
+    }
+
+    private func updateCell() {
+        if layoutUpdating {
+            return
+        }
+
+        if CGPointEqualToPoint(scrollView.contentOffset, contentOffset(state: .Normal)) {
+            state = .Normal
+        } else {
+            state = .Swiped
+        }
+
+        if let frame = contentView.superview?.convertRect(contentView.frame, toView: self) {
+            var frame = frame
+            frame.size.width = self.frame.width
+            clipViewConstraint.constant = min(0, CGRectGetMaxX(frame) - CGRectGetMaxX(self.frame))
+ 
+            if editing {
+                print("Cell is editing")
+            }
+
+            actionsView.hidden = clipViewConstraint.constant == 0
+
+            if let accessoryView = accessoryView {
+                if !editing {
+                    accessoryView.frame.origin.x = frame.width - accessoryView.frame.width - kAccessoryTrailingSpace + CGRectGetMinX(frame)
+                }
+            } else if accessoryType != .None && !editing {
+                if let subviews = scrollView.superview?.subviews {
+                    for subview in subviews {
+                        if let accessory = subview as? UIButton {
+                            accessory.frame.origin.x = frame.width - accessory.frame.width - kAccessoryTrailingSpace + CGRectGetMinX(frame)
+                        } else if NSStringFromClass(subview.dynamicType) == "UITableViewCellDetailDisclosureView" {
+                            subview.frame.origin.x = frame.width - subview.frame.width - kAccessoryTrailingSpace + CGRectGetMinX(frame)
+                        }
+                    }
+                }
+            }
+
+            if !scrollView.dragging && !scrollView.decelerating {
+                tapGesture.enabled = true
+            } else {
+                tapGesture.enabled = false
+            }
+
+            scrollView.scrollEnabled = !editing
+        }
+
     }
 
     private func configureSwipeableCell() {
+        state = .Normal
+        layoutUpdating = false
         scrollView.delegate = self
         containerView = UIView()
         scrollView.addSubview(containerView)
         insertSubview(scrollView, atIndex: 0)
         containerView.addSubview(contentView)
-        contentView.backgroundColor = UIColor.purpleColor()
 
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: [], metrics: nil, views: ["scrollView": scrollView]))
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: [], metrics: nil, views: ["scrollView": scrollView]))
@@ -126,51 +288,41 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         addConstraint(clipViewConstraint)
 
         clipView.addSubview(actionsView)
-        clipView.backgroundColor = UIColor.orangeColor()
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[actionsView]|", options: [], metrics: nil, views: ["actionsView": actionsView]))
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[actionsView]|", options: [], metrics: nil, views: ["actionsView": actionsView]))
-        addConstraint(NSLayoutConstraint(item: actionsView, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: contentView, attribute: .Width, multiplier: 1, constant: 0))
-    }
-
-    private func updateCell() {
-        if let frame = contentView.superview?.convertRect(contentView.frame, toView: self) {
-            var frame = frame
-            frame.size.width = self.frame.width
-            clipViewConstraint.constant = min(0, CGRectGetMaxX(frame) - CGRectGetMaxX(self.frame))
-            actionsView.hidden = clipViewConstraint.constant == 0
-
-            if accessoryType != .None && !editing {
-                if let subviews = scrollView.superview?.subviews {
-                    for subview in subviews {
-                        if let accessory = subview as? UIButton {
-                            accessory.frame.origin.x = frame.width - accessory.frame.width - kAccessoryTrailingSpace + CGRectGetMinX(frame)
-                        }
-                    }
-                }
-            }
-
-        }
-        
-    }
-
-    private func contentOffset() -> CGPoint {
-        return state == .Swiping ? CGPointMake(actionsView.frame.width, 0) : CGPointZero
     }
 
     // MARK: - Selector
     func scrollViewTapped(gestureRecognizer: UIGestureRecognizer) {
-        print("scrollViewTapped!!!")
+        if state == .Normal {
+            if selected {
+                deselectCell()
+            } else if shouldHighlight() {
+                selectCell()
+            }
+        } else {
+            hideActions(animated: true)
+        }
     }
 
     // MARK: - UIScrollView delegate
     public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        if velocity.x >= 0.5 {
-            print("velocity.x >= 0.5")
-        } else if velocity.x <= -0.5 {
-            print("velocity.x <= -0.5")
+        let currentLength = fabs(clipViewConstraint.constant)
+        let totalLength = actionsView.frame.width
+        var targetLocation = contentOffset(state: .Normal)
+
+        if velocity.x > 0.5 {
+            targetLocation = contentOffset(state: .Swiped)
+        } else if velocity.x < -0.5 {
+            targetLocation = contentOffset(state: .Normal)
         } else {
-            
+            if currentLength >= totalLength / 2 {
+                targetLocation = contentOffset(state: .Swiped)
+            } else {
+                targetLocation = contentOffset(state: .Normal)
+            }
         }
+        targetContentOffset.memory = targetLocation
     }
 
     public func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -186,15 +338,17 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     }
 
     public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
+        if !decelerate {
+            tapGesture.enabled = true
+        }
     }
 
     // MARK: - UIGestureRecognizer delegate
-    public override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+    override public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
     }
 
-    public override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    override public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         if let view = touch.view {
             return !view.isKindOfClass(UIControl.self)
         }
@@ -211,12 +365,12 @@ class SwipeableCellScrollView: UIScrollView {
         }
         return true
     }
-    
+
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer.isKindOfClass(UIPanGestureRecognizer.self) {
             let gesture = gestureRecognizer as! UIPanGestureRecognizer
             let yVelocity = gesture.velocityInView(gesture.view).y
-            return yVelocity <= 0.25
+            return fabs(yVelocity) <= 0.25
         }
         return true
     }

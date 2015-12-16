@@ -85,8 +85,10 @@ class ActionItemView: UIView {
 }
 
 class SwipeableCellActionsView: UIView {
-    private(set) var cell: SwipeableTableViewCell!
-    private(set) var actions: [SwipeableCellAction]!
+    private(set) var cell: SwipeableTableViewCell?
+    private(set) var actionItemViews = [ActionItemView]()
+    private var actionItemViewBackgroundColors = [UIColor]()
+
     lazy var width: NSLayoutConstraint = { [unowned self] in
         let width = NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 0)
         width.priority = UILayoutPriorityDefaultHigh
@@ -98,22 +100,25 @@ class SwipeableCellActionsView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         addConstraint(width)
         self.cell = parentCell
-        self.actions = actions
         setActions(actions)
     }
 
     func setActions(actions: [SwipeableCellAction]) {
+        func resetData() {
+            for subview in subviews {
+                if subview.tag == kActionItemViewTag {
+                    subview.removeConstraints(subview.constraints)
+                    subview.removeFromSuperview()
+                }
+            }
+            actionItemViews.removeAll()
+        }
+
+        resetData()
         if actions.count == 0 {
             return
         }
-        for subview in subviews {
-            if subview.tag == kActionItemViewTag {
-                subview.removeConstraints(subview.constraints)
-                subview.removeFromSuperview()
-            }
-        }
 
-        var actionItemViews = [ActionItemView]()
         for (index, action) in actions.enumerate() {
             let actionItemView = ActionItemView(action: action, index: index)
             actionItemViews.append(actionItemView)
@@ -129,5 +134,20 @@ class SwipeableCellActionsView: UIView {
             itemViews.updateValue(actionItemView, forKey: itemViewString)
         }
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|\(horizontalFormat)|", options: [], metrics: nil, views: itemViews))
+    }
+
+    func pushBackgroundColors() {
+        actionItemViewBackgroundColors.removeAll()
+        for actionItemView in actionItemViews {
+            actionItemViewBackgroundColors.append(actionItemView.backgroundColor!)
+        }
+    }
+
+    func popBackgroundColors() {
+        for (index, color) in actionItemViewBackgroundColors.enumerate() {
+            let actionItemView = actionItemViews[index]
+            actionItemView.backgroundColor = color
+        }
+        actionItemViewBackgroundColors.removeAll()
     }
 }
