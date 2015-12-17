@@ -9,12 +9,12 @@
 import UIKit
 
 let kActionItemViewTag = 1000
-let kImageTitleSpace: CGFloat = 6
 
 class ActionItemView: UIView {
     private(set) var title: NSAttributedString?
     private(set) var image: UIImage?
     private(set) var width: CGFloat = 0
+    private(set) var verticalSpace: CGFloat = 0
     private(set) var index = 0
     private(set) var action: ((Void)-> Void)!
 
@@ -38,11 +38,13 @@ class ActionItemView: UIView {
     convenience init(action: SwipeableCellAction, index: Int) {
         self.init(frame: CGRectZero)
         tag = kActionItemViewTag
-        backgroundColor = action.backgroundColor
         translatesAutoresizingMaskIntoConstraints = false
+
+        backgroundColor = action.backgroundColor
         self.title = action.title
         self.image = action.image
         self.width = action.width
+        self.verticalSpace = action.verticalSpace
         self.index = index
         self.action = action.action
  
@@ -65,7 +67,7 @@ class ActionItemView: UIView {
             addConstraint(NSLayoutConstraint(item: contentView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
             addConstraint(NSLayoutConstraint(item: imageView, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1, constant: 0))
             addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[titleLabel]|", options: [], metrics: nil, views: ["titleLabel": titleLabel]))
-            addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]-\(kImageTitleSpace)-[titleLabel]|", options: [], metrics: nil, views: ["imageView": imageView, "titleLabel": titleLabel]))
+            addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]-\(verticalSpace)-[titleLabel]|", options: [], metrics: nil, views: ["imageView": imageView, "titleLabel": titleLabel]))
         } else if let image = image {
             imageView.image = image
             addSubview(imageView)
@@ -89,21 +91,14 @@ class SwipeableCellActionsView: UIView {
     private(set) var actionItemViews = [ActionItemView]()
     private var actionItemViewBackgroundColors = [UIColor]()
 
-    lazy var width: NSLayoutConstraint = { [unowned self] in
-        let width = NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 0)
-        width.priority = UILayoutPriorityDefaultHigh
-        return width
-    }()
-
-    convenience init(actions: [SwipeableCellAction], parentCell: SwipeableTableViewCell) {
+    convenience init(actions: [SwipeableCellAction]?, parentCell: SwipeableTableViewCell) {
         self.init(frame: CGRectZero)
         translatesAutoresizingMaskIntoConstraints = false
-        addConstraint(width)
         self.cell = parentCell
         setActions(actions)
     }
 
-    func setActions(actions: [SwipeableCellAction]) {
+    func setActions(actions: [SwipeableCellAction]?) {
         func resetData() {
             for subview in subviews {
                 if subview.tag == kActionItemViewTag {
@@ -113,13 +108,19 @@ class SwipeableCellActionsView: UIView {
             }
             actionItemViews.removeAll()
         }
+        func validActions(actions: [SwipeableCellAction]?) -> Bool {
+            if let actions = actions {
+                return actions.count > 0
+            }
+            return false
+        }
 
         resetData()
-        if actions.count == 0 {
+        if !validActions(actions) {
             return
         }
 
-        for (index, action) in actions.enumerate() {
+        for (index, action) in actions!.enumerate() {
             let actionItemView = ActionItemView(action: action, index: index)
             actionItemViews.append(actionItemView)
         }

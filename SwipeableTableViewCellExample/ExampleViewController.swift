@@ -74,7 +74,7 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         showAlert(massage: "Did select cell \(indexPath.row)") { Void in
-            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+//            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
 
@@ -95,7 +95,7 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
         }
     }
 
-    private func actionsForCell(cell: SwipeableTableViewCell, indexPath: NSIndexPath) -> [SwipeableCellAction] {
+    private func actionsForCell(cell: SwipeableTableViewCell, indexPath: NSIndexPath) -> [SwipeableCellAction]? {
         switch indexPath.row % 6 {
         case 0:
             let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -149,7 +149,9 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
                 })
             }
             deleteAction.width = 100
+            deleteAction.verticalSpace = 6
             laterAction.width = 100
+            laterAction.verticalSpace = 6
             return [deleteAction, laterAction]
 
         case 3:
@@ -185,7 +187,7 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
             return [favoriteAction]
 
         default:
-            return []
+            return nil
         }
     }
 
@@ -194,14 +196,6 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
         let cellState = state == .Closed ? "closing" : "opening"
         let cellName = (cell.textLabel?.text)!
         print("“\(cellName)” is \(cellState)...")
-    }
-
-    func swipeableCellSwipeEnabled(cell: SwipeableTableViewCell) -> Bool {
-        return true
-    }
-
-    func allowMultipleCellsSwipedSimultaneously() -> Bool {
-        return false
     }
 
     func swipeableCellDidEndScroll(cell: SwipeableTableViewCell) {

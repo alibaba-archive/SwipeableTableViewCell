@@ -9,6 +9,7 @@
 import UIKit
 
 let kSwipeableCellActionDefaultWidth: CGFloat = 90
+let kSwipeableCellActionDefaultVerticalSpace: CGFloat = 6
 
 public struct SwipeableCellAction {
     public var title: NSAttributedString?
@@ -16,9 +17,9 @@ public struct SwipeableCellAction {
     public var backgroundColor: UIColor?
     public var action: (Void) -> Void
     public var width: CGFloat = kSwipeableCellActionDefaultWidth
-    public var index = 0
+    public var verticalSpace: CGFloat = kSwipeableCellActionDefaultVerticalSpace
 
-    public init(title: NSAttributedString?, image: UIImage?, backgroundColor: UIColor?, action: (Void) -> Void) {
+    public init(title: NSAttributedString?, image: UIImage?, backgroundColor: UIColor, action: (Void) -> Void) {
         self.title = title
         self.image = image
         self.backgroundColor = backgroundColor
