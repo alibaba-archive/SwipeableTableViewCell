@@ -20,7 +20,7 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
 
     // MARK: - Helper
     private func setupUI() {
-        navigationItem.title = "SwipeableTableViewCell Example"
+        navigationItem.title = "SwipeableTableViewCell"
     }
 
     private func showAlert(massage message: String, dismissHandler:(Void) -> Void) {
