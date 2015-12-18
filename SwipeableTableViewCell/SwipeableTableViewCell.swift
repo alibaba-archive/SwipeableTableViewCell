@@ -136,6 +136,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
 
         containerView.frame = contentView.frame
         containerView.frame.size.width = frame.width - additionalPadding
+        containerView.frame.size.height = frame.height
         scrollView.contentSize = CGSizeMake(frame.width + actionsView.frame.width, frame.height)
         if !scrollView.tracking && !scrollView.decelerating {
             scrollView.contentOffset = contentOffset(state: state)

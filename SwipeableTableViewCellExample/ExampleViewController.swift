@@ -10,6 +10,7 @@ import UIKit
 import SwipeableTableViewCell
 
 let kCellID = "SwipeableTableViewCell"
+let kCustomCellID = "CustomSwipeableTableViewCell"
 
 class ExampleViewController: UITableViewController, SwipeableTableViewCellDelegate {
     // MARK: - View life cycle
@@ -21,6 +22,7 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
     // MARK: - Helper
     private func setupUI() {
         navigationItem.title = "SwipeableTableViewCell"
+        tableView.separatorColor = UIColor(white: 0.1, alpha: 0.1)
     }
 
     private func showAlert(massage message: String, dismissHandler:(Void) -> Void) {
@@ -34,7 +36,7 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
 
     // MARK: - TableView data source and delegate
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 60
+        return 70
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -46,30 +48,37 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(kCellID) as? SwipeableTableViewCell
-        if cell == nil {
-            cell = SwipeableTableViewCell(style: .Default, reuseIdentifier: kCellID)
-        }
-        cell!.delegate = self
-        if indexPath.row % 6 == 1 {
-            let customAccessory = UILabel(frame: CGRectMake(0, 0, 30, 30))
-            customAccessory.textAlignment = .Center
-            customAccessory.text = "❤️"
-            customAccessory.backgroundColor = UIColor.clearColor()
-            cell!.accessoryView = customAccessory
+        if indexPath.row % 7 == 5 {
+            let cell = tableView.dequeueReusableCellWithIdentifier(kCustomCellID, forIndexPath: indexPath) as! SwipeableTableViewCell
+            cell.accessoryType = accessoryTypeForCellAtIndexPath(indexPath)
+            cell.actions = actionsForCell(cell, indexPath: indexPath)
+            return cell
         } else {
-            cell!.accessoryView = nil
-            cell!.accessoryType = accessoryTypeForCellAtIndexPath(indexPath)
-        }
-        cell!.actions = actionsForCell(cell!, indexPath: indexPath)
-        if indexPath.row % 6 == 5 {
-            cell!.textLabel?.text = "Cell \(indexPath.row) - No Swipe Action"
-        } else {
-            cell!.textLabel?.text = "Cell \(indexPath.row)"
-        }
+            var cell = tableView.dequeueReusableCellWithIdentifier(kCellID) as? SwipeableTableViewCell
+            if cell == nil {
+                cell = SwipeableTableViewCell(style: .Default, reuseIdentifier: kCellID)
+            }
+            cell!.delegate = self
+            if indexPath.row % 7 == 1 {
+                let customAccessory = UILabel(frame: CGRectMake(0, 0, 30, 30))
+                customAccessory.textAlignment = .Center
+                customAccessory.text = "❤️"
+                customAccessory.backgroundColor = UIColor.clearColor()
+                cell!.accessoryView = customAccessory
+            } else {
+                cell!.accessoryView = nil
+                cell!.accessoryType = accessoryTypeForCellAtIndexPath(indexPath)
+            }
+            cell!.actions = actionsForCell(cell!, indexPath: indexPath)
+            if indexPath.row % 7 == 6 {
+                cell!.textLabel?.text = "Cell \(indexPath.row) - No Swipe Action"
+            } else {
+                cell!.textLabel?.text = "Cell \(indexPath.row)"
+            }
 
-        cell!.textLabel?.font = UIFont.systemFontOfSize(18)
-        return cell!
+            cell!.textLabel?.font = UIFont.systemFontOfSize(18)
+            return cell!
+        }
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -79,12 +88,12 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
     }
 
     private func accessoryTypeForCellAtIndexPath(indexPath: NSIndexPath) -> UITableViewCellAccessoryType {
-        switch indexPath.row % 6 {
+        switch indexPath.row % 7 {
         case 0:
             return .None
         case 1:
             return .None
-        case 2:
+        case 2, 5:
             return .DisclosureIndicator
         case 3:
             return .DetailDisclosureButton
@@ -96,8 +105,8 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
     }
 
     private func actionsForCell(cell: SwipeableTableViewCell, indexPath: NSIndexPath) -> [SwipeableCellAction]? {
-        switch indexPath.row % 6 {
-        case 0:
+        switch indexPath.row % 7 {
+        case 0, 5:
             let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
             var deleteAction = SwipeableCellAction(title: delete, image: nil, backgroundColor: UIColor.redColor()) { Void in
                 let message = "Did click “\(delete.string)” on cell \(indexPath.row)"
