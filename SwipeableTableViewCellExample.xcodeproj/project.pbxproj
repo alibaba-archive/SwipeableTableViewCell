@@ -7,21 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D31EE3281C27DDCE009AB062 /* SwipeableTableViewCell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D31EE3271C27DDCE009AB062 /* SwipeableTableViewCell.framework */; };
+		D31EE3291C27DDCE009AB062 /* SwipeableTableViewCell.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D31EE3271C27DDCE009AB062 /* SwipeableTableViewCell.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D3C6AD701C1FBED500580522 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C6AD6F1C1FBED500580522 /* AppDelegate.swift */; };
 		D3C6AD721C1FBED500580522 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C6AD711C1FBED500580522 /* ExampleViewController.swift */; };
 		D3C6AD751C1FBED500580522 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C6AD731C1FBED500580522 /* Main.storyboard */; };
 		D3C6AD771C1FBED500580522 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C6AD761C1FBED500580522 /* Assets.xcassets */; };
-		D3C6AD8F1C1FFD1400580522 /* SwipeableTableViewCell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C6AD8E1C1FFD1400580522 /* SwipeableTableViewCell.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D31EE32A1C27DDCE009AB062 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D31EE3291C27DDCE009AB062 /* SwipeableTableViewCell.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		D31EE3271C27DDCE009AB062 /* SwipeableTableViewCell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = SwipeableTableViewCell.framework; path = "/Users/hongxin/Library/Developer/Xcode/DerivedData/SwipeableTableViewCell-gblinibffhattmcmnpegiazppjtf/Build/Products/Debug-iphoneos/SwipeableTableViewCell.framework"; sourceTree = "<absolute>"; };
 		D3C6AD6C1C1FBED500580522 /* SwipeableTableViewCellExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeableTableViewCellExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C6AD6F1C1FBED500580522 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3C6AD711C1FBED500580522 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		D3C6AD741C1FBED500580522 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D3C6AD761C1FBED500580522 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3C6AD7B1C1FBED500580522 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D3C6AD8E1C1FFD1400580522 /* SwipeableTableViewCell.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwipeableTableViewCell.framework; path = "build/Debug-iphoneos/SwipeableTableViewCell.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3C6AD8F1C1FFD1400580522 /* SwipeableTableViewCell.framework in Frameworks */,
+				D31EE3281C27DDCE009AB062 /* SwipeableTableViewCell.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,7 +54,7 @@
 		D3C6AD631C1FBED500580522 = {
 			isa = PBXGroup;
 			children = (
-				D3C6AD8E1C1FFD1400580522 /* SwipeableTableViewCell.framework */,
+				D31EE3271C27DDCE009AB062 /* SwipeableTableViewCell.framework */,
 				D3C6AD6E1C1FBED500580522 /* SwipeableTableViewCellExample */,
 				D3C6AD6D1C1FBED500580522 /* Products */,
 			);
@@ -75,6 +90,7 @@
 				D3C6AD681C1FBED500580522 /* Sources */,
 				D3C6AD691C1FBED500580522 /* Frameworks */,
 				D3C6AD6A1C1FBED500580522 /* Resources */,
+				D31EE32A1C27DDCE009AB062 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
