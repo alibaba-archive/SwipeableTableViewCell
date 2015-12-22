@@ -125,11 +125,6 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         configureSwipeableCell()
     }
 
-    override public func awakeFromNib() {
-        super.awakeFromNib()
-        configureSwipeableCell()
-    }
-
     override public func layoutSubviews() {
         super.layoutSubviews()
         configureContainerViewBackgroundColor()

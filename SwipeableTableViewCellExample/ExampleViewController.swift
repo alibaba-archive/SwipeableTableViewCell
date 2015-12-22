@@ -82,7 +82,8 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        showAlert(massage: "Did select cell \(indexPath.row)") { Void in
+        let message = indexPath.row % 7 == 5 ? "Did select custom cell" : "Did select cell \(indexPath.row)"
+        showAlert(massage: message) { Void in
 //            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
@@ -109,14 +110,14 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
         case 0, 5:
             let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
             var deleteAction = SwipeableCellAction(title: delete, image: nil, backgroundColor: UIColor.redColor()) { Void in
-                let message = "Did click “\(delete.string)” on cell \(indexPath.row)"
+                let message = indexPath.row % 7 == 5 ? "Did click “\(delete.string)” on custom cell" : "Did click “\(delete.string)” on cell \(indexPath.row)"
                 self.showAlert(massage: message, dismissHandler: { Void in
                     cell.hideActions(animated: true)
                 })
             }
             let more = NSAttributedString(string: "更多", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
             var moreAction = SwipeableCellAction(title: more, image: nil, backgroundColor: UIColor.lightGrayColor()) { Void in
-                let message = "Did click “\(more.string)” at cell \(indexPath.row)"
+                let message = indexPath.row % 7 == 5 ? "Did click “\(more.string)” on custom cell" : "Did click “\(more.string)” on cell \(indexPath.row)"
                 self.showAlert(massage: message, dismissHandler: { Void in
                     cell.hideActions(animated: true)
                 })
