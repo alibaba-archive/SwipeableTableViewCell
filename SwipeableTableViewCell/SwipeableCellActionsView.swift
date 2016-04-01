@@ -49,7 +49,7 @@ class ActionItemView: UIView {
         self.action = action.action
  
         userInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: "didTapActionItemView:")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ActionItemView.didTapActionItemView(_:)))
         tapGesture.numberOfTapsRequired = 1
         addGestureRecognizer(tapGesture)
 

@@ -59,7 +59,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
             if let tableView = tableView {
                 tableViewPanGestureRecognizer = tableView.panGestureRecognizer
                 if let dataSource = tableView.dataSource {
-                    if dataSource.respondsToSelector("sectionIndexTitlesForTableView:") {
+                    if dataSource.respondsToSelector(#selector(UITableViewDataSource.sectionIndexTitlesForTableView(_:))) {
                         if let _ = dataSource.sectionIndexTitlesForTableView!(tableView) {
                             additionalPadding = kSectionIndexWidth
                         }
@@ -88,13 +88,13 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         return scrollView
     }()
     lazy var tapGesture: UITapGestureRecognizer = { [unowned self] in
-        let tapGesture = UITapGestureRecognizer(target: self, action: "scrollViewTapped:")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SwipeableTableViewCell.scrollViewTapped(_:)))
         tapGesture.cancelsTouchesInView = false
         tapGesture.numberOfTapsRequired = 1
         return tapGesture
     }()
     lazy var longPressGesture: UILongPressGestureRecognizer = {
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: "scrollViewLongPressed:")
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(SwipeableTableViewCell.scrollViewLongPressed(_:)))
         longPressGesture.cancelsTouchesInView = false
         return longPressGesture
     }()
@@ -207,7 +207,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
 
     private func shouldHighlight() -> Bool {
         if let tableView = tableView, delegate = tableView.delegate {
-            if delegate.respondsToSelector("tableView:shouldHighlightRowAtIndexPath:") {
+            if delegate.respondsToSelector(#selector(UITableViewDelegate.tableView(_:shouldHighlightRowAtIndexPath:))) {
                 if let cellIndexPath = tableView.indexPathForCell(self) {
                     return delegate.tableView!(tableView, shouldHighlightRowAtIndexPath: cellIndexPath)
                 }
@@ -223,14 +223,14 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
 
         if let tableView = tableView, delegate = tableView.delegate {
             var cellIndexPath = tableView.indexPathForCell(self)
-            if delegate.respondsToSelector("tableView:willSelectRowAtIndexPath:") {
+            if delegate.respondsToSelector(#selector(UITableViewDelegate.tableView(_:willSelectRowAtIndexPath:))) {
                 if let indexPath = cellIndexPath {
                     cellIndexPath = delegate.tableView!(tableView, willSelectRowAtIndexPath: indexPath)
                 }
             }
             if let indexPath = cellIndexPath {
                 tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-                if delegate.respondsToSelector("tableView:didSelectRowAtIndexPath:") {
+                if delegate.respondsToSelector(#selector(UITableViewDelegate.tableView(_:didSelectRowAtIndexPath:))) {
                     delegate.tableView!(tableView, didSelectRowAtIndexPath: indexPath)
                 }
             }
@@ -244,14 +244,14 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
 
         if let tableView = tableView, delegate = tableView.delegate {
             var cellIndexPath = tableView.indexPathForCell(self)
-            if delegate.respondsToSelector("tableView:willDeselectRowAtIndexPath:") {
+            if delegate.respondsToSelector(#selector(UITableViewDelegate.tableView(_:willDeselectRowAtIndexPath:))) {
                 if let indexPath = cellIndexPath {
                     cellIndexPath = delegate.tableView!(tableView, willDeselectRowAtIndexPath: indexPath)
                 }
             }
             if let indexPath = cellIndexPath {
                 tableView.deselectRowAtIndexPath(indexPath, animated: false)
-                if delegate.respondsToSelector("tableView:didDeselectRowAtIndexPath:") {
+                if delegate.respondsToSelector(#selector(UITableViewDelegate.tableView(_:didDeselectRowAtIndexPath:))) {
                     delegate.tableView!(tableView, didDeselectRowAtIndexPath: indexPath)
                 }
             }
