@@ -96,6 +96,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     lazy var longPressGesture: UILongPressGestureRecognizer = {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(SwipeableTableViewCell.scrollViewLongPressed(_:)))
         longPressGesture.cancelsTouchesInView = false
+        longPressGesture.minimumPressDuration = 0.15
         return longPressGesture
     }()
 
@@ -372,7 +373,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     }
 
     private func configureContainerViewBackgroundColor() {
-        if selected {
+        if selected || highlighted {
             containerView.backgroundColor = UIColor.clearColor()
         } else {
             if backgroundColor == UIColor.clearColor() || backgroundColor == nil {
