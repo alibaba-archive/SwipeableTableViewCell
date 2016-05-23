@@ -17,7 +17,7 @@ public enum SwipeableCellState {
     case Swiped
 }
 
-public protocol SwipeableTableViewCellDelegate {
+public protocol SwipeableTableViewCellDelegate: class {
     func swipeableCell(cell: SwipeableTableViewCell, scrollingToState state: SwipeableCellState)
     func swipeableCellSwipeEnabled(cell: SwipeableTableViewCell) -> Bool
     func allowMultipleCellsSwipedSimultaneously() -> Bool
@@ -43,8 +43,8 @@ public extension SwipeableTableViewCellDelegate {
 }
 
 public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
-    public var delegate: SwipeableTableViewCellDelegate?
-    private(set) var state: SwipeableCellState = .Closed
+    public weak var delegate: SwipeableTableViewCellDelegate?
+    public private(set) var state: SwipeableCellState = .Closed
     public var actions: [SwipeableCellAction]? {
         didSet {
             actionsView.setActions(actions)
