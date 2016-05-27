@@ -53,9 +53,10 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         }
     }
 
-    private var tableView: UITableView? {
+    private weak var tableView: UITableView? {
         didSet {
             removeOldTableViewPanObserver()
+            tableViewPanGestureRecognizer = nil
             if let tableView = tableView {
                 tableViewPanGestureRecognizer = tableView.panGestureRecognizer
                 if let dataSource = tableView.dataSource {
