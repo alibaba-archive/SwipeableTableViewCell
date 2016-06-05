@@ -7,22 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A50A2611CF7F431003BA222 /* SwipeableTableViewCell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A50A2601CF7F431003BA222 /* SwipeableTableViewCell.framework */; };
-		4A50A2621CF7F431003BA222 /* SwipeableTableViewCell.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4A50A2601CF7F431003BA222 /* SwipeableTableViewCell.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D3C6AD701C1FBED500580522 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C6AD6F1C1FBED500580522 /* AppDelegate.swift */; };
-		D3C6AD721C1FBED500580522 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C6AD711C1FBED500580522 /* ExampleViewController.swift */; };
+		D3C6AD721C1FBED500580522 /* StylesExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C6AD711C1FBED500580522 /* StylesExampleViewController.swift */; };
 		D3C6AD751C1FBED500580522 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C6AD731C1FBED500580522 /* Main.storyboard */; };
 		D3C6AD771C1FBED500580522 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C6AD761C1FBED500580522 /* Assets.xcassets */; };
+		D3DB9C231D03F9C3009797E6 /* ExampleMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DB9C221D03F9C3009797E6 /* ExampleMenuViewController.swift */; };
+		D3DB9C251D03FC28009797E6 /* BackgroundViewExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DB9C241D03FC28009797E6 /* BackgroundViewExampleViewController.swift */; };
+		D3DB9C271D040092009797E6 /* BackgroundViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DB9C261D040092009797E6 /* BackgroundViewCell.swift */; };
+		D3DB9C291D0400AF009797E6 /* BackgroundViewSwipeableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DB9C281D0400AF009797E6 /* BackgroundViewSwipeableCell.swift */; };
+		D3DB9C2E1D040C94009797E6 /* SwipeableTableViewCell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DB9C2D1D040C94009797E6 /* SwipeableTableViewCell.framework */; };
+		D3DB9C2F1D040C94009797E6 /* SwipeableTableViewCell.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D3DB9C2D1D040C94009797E6 /* SwipeableTableViewCell.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D31EE32A1C27DDCE009AB062 /* Embed Frameworks */ = {
+		D3DB9C301D040C95009797E6 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4A50A2621CF7F431003BA222 /* SwipeableTableViewCell.framework in Embed Frameworks */,
+				D3DB9C2F1D040C94009797E6 /* SwipeableTableViewCell.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -30,13 +34,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4A50A2601CF7F431003BA222 /* SwipeableTableViewCell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = SwipeableTableViewCell.framework; path = "/Users/wangwei/Library/Developer/Xcode/DerivedData/SwipeableTableViewCell-flglwiucqidpdbalibvewdgwhcxd/Build/Products/Debug-iphonesimulator/SwipeableTableViewCell.framework"; sourceTree = "<absolute>"; };
 		D3C6AD6C1C1FBED500580522 /* SwipeableTableViewCellExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeableTableViewCellExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C6AD6F1C1FBED500580522 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D3C6AD711C1FBED500580522 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
+		D3C6AD711C1FBED500580522 /* StylesExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesExampleViewController.swift; sourceTree = "<group>"; };
 		D3C6AD741C1FBED500580522 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D3C6AD761C1FBED500580522 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3C6AD7B1C1FBED500580522 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3DB9C221D03F9C3009797E6 /* ExampleMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleMenuViewController.swift; sourceTree = "<group>"; };
+		D3DB9C241D03FC28009797E6 /* BackgroundViewExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundViewExampleViewController.swift; sourceTree = "<group>"; };
+		D3DB9C261D040092009797E6 /* BackgroundViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundViewCell.swift; sourceTree = "<group>"; };
+		D3DB9C281D0400AF009797E6 /* BackgroundViewSwipeableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundViewSwipeableCell.swift; sourceTree = "<group>"; };
+		D3DB9C2D1D040C94009797E6 /* SwipeableTableViewCell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = SwipeableTableViewCell.framework; path = "/Users/hongxin/Library/Developer/Xcode/DerivedData/SwipeableTableViewCell-gblinibffhattmcmnpegiazppjtf/Build/Products/Debug-iphoneos/SwipeableTableViewCell.framework"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A50A2611CF7F431003BA222 /* SwipeableTableViewCell.framework in Frameworks */,
+				D3DB9C2E1D040C94009797E6 /* SwipeableTableViewCell.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,7 +62,7 @@
 		D3C6AD631C1FBED500580522 = {
 			isa = PBXGroup;
 			children = (
-				4A50A2601CF7F431003BA222 /* SwipeableTableViewCell.framework */,
+				D3DB9C2D1D040C94009797E6 /* SwipeableTableViewCell.framework */,
 				D3C6AD6E1C1FBED500580522 /* SwipeableTableViewCellExample */,
 				D3C6AD6D1C1FBED500580522 /* Products */,
 			);
@@ -72,7 +80,11 @@
 			isa = PBXGroup;
 			children = (
 				D3C6AD6F1C1FBED500580522 /* AppDelegate.swift */,
-				D3C6AD711C1FBED500580522 /* ExampleViewController.swift */,
+				D3DB9C221D03F9C3009797E6 /* ExampleMenuViewController.swift */,
+				D3C6AD711C1FBED500580522 /* StylesExampleViewController.swift */,
+				D3DB9C241D03FC28009797E6 /* BackgroundViewExampleViewController.swift */,
+				D3DB9C281D0400AF009797E6 /* BackgroundViewSwipeableCell.swift */,
+				D3DB9C261D040092009797E6 /* BackgroundViewCell.swift */,
 				D3C6AD731C1FBED500580522 /* Main.storyboard */,
 				D3C6AD761C1FBED500580522 /* Assets.xcassets */,
 				D3C6AD7B1C1FBED500580522 /* Info.plist */,
@@ -90,7 +102,7 @@
 				D3C6AD681C1FBED500580522 /* Sources */,
 				D3C6AD691C1FBED500580522 /* Frameworks */,
 				D3C6AD6A1C1FBED500580522 /* Resources */,
-				D31EE32A1C27DDCE009AB062 /* Embed Frameworks */,
+				D3DB9C301D040C95009797E6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -151,8 +163,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3C6AD721C1FBED500580522 /* ExampleViewController.swift in Sources */,
+				D3C6AD721C1FBED500580522 /* StylesExampleViewController.swift in Sources */,
+				D3DB9C251D03FC28009797E6 /* BackgroundViewExampleViewController.swift in Sources */,
 				D3C6AD701C1FBED500580522 /* AppDelegate.swift in Sources */,
+				D3DB9C231D03F9C3009797E6 /* ExampleMenuViewController.swift in Sources */,
+				D3DB9C291D0400AF009797E6 /* BackgroundViewSwipeableCell.swift in Sources */,
+				D3DB9C271D040092009797E6 /* BackgroundViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  ExampleViewController.swift
+//  StylesExampleViewController.swift
 //  SwipeableTableViewCellExample
 //
 //  Created by 洪鑫 on 15/12/15.
@@ -12,7 +12,7 @@ import SwipeableTableViewCell
 let kCellID = "SwipeableTableViewCell"
 let kCustomCellID = "CustomSwipeableTableViewCell"
 
-class ExampleViewController: UITableViewController, SwipeableTableViewCellDelegate {
+class StylesExampleViewController: UITableViewController, SwipeableTableViewCellDelegate {
     // MARK: - View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ class ExampleViewController: UITableViewController, SwipeableTableViewCellDelega
 
     // MARK: - Helper
     private func setupUI() {
-        navigationItem.title = "SwipeableTableViewCell"
+        navigationItem.title = "Styles"
         tableView.separatorColor = UIColor(white: 0.1, alpha: 0.1)
     }
 
