@@ -44,7 +44,13 @@ public extension SwipeableTableViewCellDelegate {
 
 public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     public weak var delegate: SwipeableTableViewCellDelegate?
-    public private(set) var state: SwipeableCellState = .Closed
+    public private(set) var state: SwipeableCellState = .Closed {
+        didSet {
+            if state != oldValue {
+                updateContainerViewBackgroundColor()
+            }
+        }
+    }
     public var actions: [SwipeableCellAction]? {
         didSet {
             actionsView.setActions(actions)
@@ -129,7 +135,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
-        configureContainerViewBackgroundColor()
+        updateContainerViewBackgroundColor()
 
         containerView.frame = contentView.frame
         containerView.frame.size.width = frame.width - additionalPadding
@@ -144,7 +150,6 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     override public func prepareForReuse() {
         super.prepareForReuse()
         if state != .Closed {
-            state = .Closed
             hideActions(animated: false)
         }
     }
@@ -262,16 +267,16 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
 
     // MARK: - Helper
     public func showActions(animated animated: Bool) {
-        scrollView.setContentOffset(contentOffset(state: .Swiped), animated: animated)
-        if let delegate = delegate {
-            delegate.swipeableCell(self, scrollingToState: .Swiped)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.scrollView.setContentOffset(self.contentOffset(state: .Swiped), animated: animated)
+            self.delegate?.swipeableCell(self, scrollingToState: .Swiped)
         }
     }
 
     public func hideActions(animated animated: Bool) {
-        scrollView.setContentOffset(contentOffset(state: .Closed), animated: animated)
-        if let delegate = delegate {
-            delegate.swipeableCell(self, scrollingToState: .Closed)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.scrollView.setContentOffset(self.contentOffset(state: .Closed), animated: animated)
+            self.delegate?.swipeableCell(self, scrollingToState: .Closed)
         }
     }
 
@@ -288,7 +293,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     }
 
     private func contentOffset(state state: SwipeableCellState) -> CGPoint {
-        return state == .Swiped ? CGPointMake(actionsView.frame.width, 0) : CGPointZero
+        return state == .Swiped ? CGPointMake(actionsView.frame.width, 0) : CGPoint.zero
     }
 
     private func updateCell() {
@@ -306,10 +311,6 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
             var frame = frame
             frame.size.width = self.frame.width
             clipViewConstraint.constant = min(0, CGRectGetMaxX(frame) - CGRectGetMaxX(self.frame))
- 
-            if editing {
-                print("Cell is editing")
-            }
 
             actionsView.hidden = clipViewConstraint.constant == 0
 
@@ -373,8 +374,8 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[actionsView]|", options: [], metrics: nil, views: ["actionsView": actionsView]))
     }
 
-    private func configureContainerViewBackgroundColor() {
-        if selected || highlighted {
+    private func updateContainerViewBackgroundColor() {
+        if selected || highlighted || state == .Closed {
             containerView.backgroundColor = UIColor.clearColor()
         } else {
             if backgroundColor == UIColor.clearColor() || backgroundColor == nil {
@@ -386,17 +387,11 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     }
 
     private func shouldAllowMultipleCellsSwipedSimultaneously() -> Bool {
-        if let delegate = delegate {
-            return delegate.allowMultipleCellsSwipedSimultaneously()
-        }
-        return false
+        return delegate?.allowMultipleCellsSwipedSimultaneously() ?? false
     }
 
     private func swipeEnabled() -> Bool {
-        if let delegate = delegate {
-            return delegate.swipeableCellSwipeEnabled(self)
-        }
-        return true
+        return delegate?.swipeableCellSwipeEnabled(self) ?? true
     }
 
     // MARK: - Selector
@@ -458,9 +453,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         let targetLocation = contentOffset(state: targetState)
         targetContentOffset.memory = targetLocation
 
-        if let delegate = delegate {
-            delegate.swipeableCell(self, scrollingToState: targetState)
-        }
+        delegate?.swipeableCell(self, scrollingToState: targetState)
 
         if state != .Closed && !shouldAllowMultipleCellsSwipedSimultaneously() {
             hideAllOtherCellsActions(animated: true)
@@ -479,16 +472,12 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
 
     public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         updateCell()
-        if let delegate = delegate {
-            delegate.swipeableCellDidEndScroll(self)
-        }
+        delegate?.swipeableCellDidEndScroll(self)
     }
 
     public func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
         updateCell()
-        if let delegate = delegate {
-            delegate.swipeableCellDidEndScroll(self)
-        }
+        delegate?.swipeableCellDidEndScroll(self)
     }
 
     public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {

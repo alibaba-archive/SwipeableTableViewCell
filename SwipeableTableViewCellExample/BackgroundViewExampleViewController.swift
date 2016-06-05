@@ -92,7 +92,7 @@ class BackgroundViewExampleViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if pushEnabled {
             performSegueWithIdentifier("PushToViewController", sender: self)
-//            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
 }
