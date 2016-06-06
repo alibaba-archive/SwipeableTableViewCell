@@ -74,7 +74,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
                 }
                 tableView.directionalLockEnabled = true
                 tapGesture.requireGestureRecognizerToFail(tableView.panGestureRecognizer)
-                tableViewPanGestureRecognizer!.addObserver(self, forKeyPath: kTableViewPanState, options: [], context: nil)
+                tableViewPanGestureRecognizer!.addObserver(self, forKeyPath: kTableViewPanState, options: [.New], context: nil)
             }
         }
     }
@@ -103,7 +103,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     lazy var longPressGesture: UILongPressGestureRecognizer = {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(SwipeableTableViewCell.scrollViewLongPressed(_:)))
         longPressGesture.cancelsTouchesInView = false
-        longPressGesture.minimumPressDuration = 0.15
+        longPressGesture.minimumPressDuration = 0.13
         return longPressGesture
     }()
 
@@ -203,6 +203,9 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if let keyPath = keyPath, object = object as? UIPanGestureRecognizer, tableViewPanGestureRecognizer = tableViewPanGestureRecognizer  {
             if keyPath == kTableViewPanState && object == tableViewPanGestureRecognizer {
+                if let change = change, new = change["new"] as? Int where (new == 2 || new == 3) {
+                    setHighlighted(false, animated: false)
+                }
                 let locationInTableView = tableViewPanGestureRecognizer.locationInView(tableView)
                 let inCurrentCell = CGRectContainsPoint(frame, locationInTableView)
                 if !inCurrentCell && state != .Closed && !shouldAllowMultipleCellsSwipedSimultaneously() {
@@ -215,7 +218,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     private func shouldHighlight() -> Bool {
         if let tableView = tableView, delegate = tableView.delegate {
             if delegate.respondsToSelector(#selector(UITableViewDelegate.tableView(_:shouldHighlightRowAtIndexPath:))) {
-                if let cellIndexPath = tableView.indexPathForCell(self) {
+                if let cellIndexPath = tableView.indexPathForRowAtPoint(center) {
                     return delegate.tableView!(tableView, shouldHighlightRowAtIndexPath: cellIndexPath)
                 }
             }
@@ -229,7 +232,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         }
 
         if let tableView = tableView, delegate = tableView.delegate {
-            var cellIndexPath = tableView.indexPathForCell(self)
+            var cellIndexPath = tableView.indexPathForRowAtPoint(center)
             if delegate.respondsToSelector(#selector(UITableViewDelegate.tableView(_:willSelectRowAtIndexPath:))) {
                 if let indexPath = cellIndexPath {
                     cellIndexPath = delegate.tableView!(tableView, willSelectRowAtIndexPath: indexPath)
@@ -250,7 +253,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         }
 
         if let tableView = tableView, delegate = tableView.delegate {
-            var cellIndexPath = tableView.indexPathForCell(self)
+            var cellIndexPath = tableView.indexPathForRowAtPoint(center)
             if delegate.respondsToSelector(#selector(UITableViewDelegate.tableView(_:willDeselectRowAtIndexPath:))) {
                 if let indexPath = cellIndexPath {
                     cellIndexPath = delegate.tableView!(tableView, willDeselectRowAtIndexPath: indexPath)
@@ -422,10 +425,12 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
             }
 
         case .Ended:
-            setHighlighted(false, animated: false)
-            scrollViewTapped(gestureRecognizer)
+            if highlighted {
+                setHighlighted(false, animated: false)
+                scrollViewTapped(gestureRecognizer)
+            }
 
-        case .Cancelled:
+        case .Cancelled, .Failed:
             setHighlighted(false, animated: false)
 
         default:
