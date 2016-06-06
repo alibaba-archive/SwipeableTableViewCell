@@ -197,7 +197,7 @@
         <!--View Controller-->
         <scene sceneID="DG7-EB-VKg">
             <objects>
-                <viewController id="qmZ-UH-X6L" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="qmZ-UH-X6L" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L9R-ek-Pqz"/>
                         <viewControllerLayoutGuide type="bottom" id="pi4-Iq-7VB"/>

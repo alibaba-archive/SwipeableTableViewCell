@@ -39,6 +39,12 @@ class BackgroundViewExampleViewController: UITableViewController {
             return titleView
         }()
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: switchView)
+
+        if #available(iOS 9, *) {
+            if traitCollection.forceTouchCapability == .Available {
+                registerForPreviewingWithDelegate(self, sourceView: view)
+            }
+        }
     }
 
     func pushSwitchValueChanged(sender: UISwitch) {
@@ -94,5 +100,22 @@ class BackgroundViewExampleViewController: UITableViewController {
             performSegueWithIdentifier("PushToViewController", sender: self)
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
+    }
+}
+
+@available(iOS 9.0, *)
+extension BackgroundViewExampleViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRowAtPoint(location), cell = tableView.cellForRowAtIndexPath(indexPath) else {
+            return nil
+        }
+        let previewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ViewController")
+        previewController.preferredContentSize = CGSize.zero
+        previewingContext.sourceRect = cell.frame
+        return previewController
+    }
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        showViewController(viewControllerToCommit, sender: self)
     }
 }

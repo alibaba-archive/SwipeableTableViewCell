@@ -103,7 +103,7 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     lazy var longPressGesture: UILongPressGestureRecognizer = {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(SwipeableTableViewCell.scrollViewLongPressed(_:)))
         longPressGesture.cancelsTouchesInView = false
-        longPressGesture.minimumPressDuration = 0.13
+        longPressGesture.minimumPressDuration = 0.16
         return longPressGesture
     }()
 
