@@ -206,11 +206,11 @@ public class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
                 if let change = change, new = change["new"] as? Int where (new == 2 || new == 3) {
                     setHighlighted(false, animated: false)
                 }
-                let locationInTableView = tableViewPanGestureRecognizer.locationInView(tableView)
-                let inCurrentCell = CGRectContainsPoint(frame, locationInTableView)
-                if !inCurrentCell && state != .Closed && !shouldAllowMultipleCellsSwipedSimultaneously() {
-                    hideAllOtherCellsActions(animated: true)
-                }
+//                let locationInTableView = tableViewPanGestureRecognizer.locationInView(tableView)
+//                let inCurrentCell = CGRectContainsPoint(frame, locationInTableView)
+//                if !inCurrentCell && state != .Closed && !shouldAllowMultipleCellsSwipedSimultaneously() {
+//                    hideAllOtherCellsActions(animated: true)
+//                }
             }
         }
     }
