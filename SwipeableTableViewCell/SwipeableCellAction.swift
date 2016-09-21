@@ -15,11 +15,11 @@ public struct SwipeableCellAction {
     public var title: NSAttributedString?
     public var image: UIImage?
     public var backgroundColor: UIColor?
-    public var action: (Void) -> Void
+    public var action: () -> ()
     public var width: CGFloat = kSwipeableCellActionDefaultWidth
     public var verticalSpace: CGFloat = kSwipeableCellActionDefaultVerticalSpace
 
-    public init(title: NSAttributedString?, image: UIImage?, backgroundColor: UIColor, action: (Void) -> Void) {
+    public init(title: NSAttributedString?, image: UIImage?, backgroundColor: UIColor, action: @escaping () -> ()) {
         self.title = title
         self.image = image
         self.backgroundColor = backgroundColor

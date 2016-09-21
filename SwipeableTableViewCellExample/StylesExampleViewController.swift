@@ -20,50 +20,50 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
     }
 
     // MARK: - Helper
-    private func setupUI() {
+    fileprivate func setupUI() {
         navigationItem.title = "Styles"
         tableView.separatorColor = UIColor(white: 0.1, alpha: 0.1)
     }
 
-    private func showAlert(massage message: String, dismissHandler:(Void) -> Void) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) -> Void in
+    fileprivate func showAlert(_ message: String, dismissHandler: @escaping () -> ()) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .cancel) { _ in
             dismissHandler()
         }
         alert.addAction(cancelAction)
-        presentViewController(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
 
     // MARK: - TableView data source and delegate
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 70
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row % 7 == 5 {
-            let cell = tableView.dequeueReusableCellWithIdentifier(kCustomCellID, forIndexPath: indexPath) as! SwipeableTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: kCustomCellID, for: indexPath) as! SwipeableTableViewCell
             cell.accessoryType = accessoryTypeForCellAtIndexPath(indexPath)
             cell.actions = actionsForCell(cell, indexPath: indexPath)
             return cell
         } else {
-            var cell = tableView.dequeueReusableCellWithIdentifier(kCellID) as? SwipeableTableViewCell
+            var cell = tableView.dequeueReusableCell(withIdentifier: kCellID) as? SwipeableTableViewCell
             if cell == nil {
-                cell = SwipeableTableViewCell(style: .Default, reuseIdentifier: kCellID)
+                cell = SwipeableTableViewCell(style: .default, reuseIdentifier: kCellID)
             }
             cell!.delegate = self
             if indexPath.row % 7 == 1 {
-                let customAccessory = UILabel(frame: CGRectMake(0, 0, 30, 30))
-                customAccessory.textAlignment = .Center
+                let customAccessory = UILabel(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+                customAccessory.textAlignment = .center
                 customAccessory.text = "❤️"
-                customAccessory.backgroundColor = UIColor.clearColor()
+                customAccessory.backgroundColor = UIColor.clear
                 cell!.accessoryView = customAccessory
             } else {
                 cell!.accessoryView = nil
@@ -76,49 +76,49 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
                 cell!.textLabel?.text = "Cell \(indexPath.row)"
             }
 
-            cell!.textLabel?.font = UIFont.systemFontOfSize(18)
+            cell!.textLabel?.font = UIFont.systemFont(ofSize: 18)
             return cell!
         }
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let message = indexPath.row % 7 == 5 ? "Did select custom cell" : "Did select cell \(indexPath.row)"
-        showAlert(massage: message) { Void in
-//            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        showAlert(message) { _ in
+
         }
     }
 
-    private func accessoryTypeForCellAtIndexPath(indexPath: NSIndexPath) -> UITableViewCellAccessoryType {
+    fileprivate func accessoryTypeForCellAtIndexPath(_ indexPath: IndexPath) -> UITableViewCellAccessoryType {
         switch indexPath.row % 7 {
         case 0:
-            return .None
+            return .none
         case 1:
-            return .None
+            return .none
         case 2, 5:
-            return .DisclosureIndicator
+            return .disclosureIndicator
         case 3:
-            return .DetailDisclosureButton
+            return .detailDisclosureButton
         case 4:
-            return .Checkmark
+            return .checkmark
         default:
-            return .None
+            return .none
         }
     }
 
-    private func actionsForCell(cell: SwipeableTableViewCell, indexPath: NSIndexPath) -> [SwipeableCellAction]? {
+    fileprivate func actionsForCell(_ cell: SwipeableTableViewCell, indexPath: IndexPath) -> [SwipeableCellAction]? {
         switch indexPath.row % 7 {
         case 0, 5:
-            let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-            var deleteAction = SwipeableCellAction(title: delete, image: nil, backgroundColor: UIColor.redColor()) { Void in
+            let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.white])
+            var deleteAction = SwipeableCellAction(title: delete, image: nil, backgroundColor: UIColor.red) { _ in
                 let message = indexPath.row % 7 == 5 ? "Did click “\(delete.string)” on custom cell" : "Did click “\(delete.string)” on cell \(indexPath.row)"
-                self.showAlert(massage: message, dismissHandler: { Void in
+                self.showAlert(message, dismissHandler: { _ in
                     cell.hideActions(animated: true)
                 })
             }
-            let more = NSAttributedString(string: "更多", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-            var moreAction = SwipeableCellAction(title: more, image: nil, backgroundColor: UIColor.lightGrayColor()) { Void in
+            let more = NSAttributedString(string: "更多", attributes: [NSForegroundColorAttributeName: UIColor.white])
+            var moreAction = SwipeableCellAction(title: more, image: nil, backgroundColor: UIColor.lightGray) { _ in
                 let message = indexPath.row % 7 == 5 ? "Did click “\(more.string)” on custom cell" : "Did click “\(more.string)” on cell \(indexPath.row)"
-                self.showAlert(massage: message, dismissHandler: { Void in
+                self.showAlert(message, dismissHandler: { _ in
                     cell.hideActions(animated: true)
                 })
             }
@@ -127,15 +127,15 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
             return [deleteAction, moreAction]
 
         case 1:
-            var deleteAction = SwipeableCellAction(title: NSAttributedString(string: "Delete"), image: nil, backgroundColor: UIColor.redColor()) { Void in
+            var deleteAction = SwipeableCellAction(title: NSAttributedString(string: "Delete"), image: nil, backgroundColor: UIColor.red) { _ in
                 let message = "Did click “Delete” at cell \(indexPath.row)"
-                self.showAlert(massage: message, dismissHandler: { Void in
+                self.showAlert(message, dismissHandler: { _ in
                     cell.hideActions(animated: true)
                 })
             }
-            var moreAction = SwipeableCellAction(title: NSAttributedString(string: "More"), image: nil, backgroundColor: UIColor.lightGrayColor()) { Void in
+            var moreAction = SwipeableCellAction(title: NSAttributedString(string: "More"), image: nil, backgroundColor: UIColor.lightGray) { _ in
                 let message = "Did click “More” at cell \(indexPath.row)"
-                self.showAlert(massage: message, dismissHandler: { Void in
+                self.showAlert(message, dismissHandler: { _ in
                     cell.hideActions(animated: true)
                 })
             }
@@ -144,17 +144,17 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
             return [deleteAction, moreAction]
 
         case 2:
-            let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(15)])
-            var deleteAction = SwipeableCellAction(title: delete, image: UIImage(named: "delete-icon"), backgroundColor: UIColor(red: 255 / 255, green: 90 / 255, blue: 29 / 255, alpha: 1)) { Void in
+            let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
+            var deleteAction = SwipeableCellAction(title: delete, image: UIImage(named: "delete-icon"), backgroundColor: UIColor(red: 255 / 255, green: 90 / 255, blue: 29 / 255, alpha: 1)) { _ in
                 let message = "Did click “\(delete.string)” at cell \(indexPath.row)"
-                self.showAlert(massage: message, dismissHandler: { Void in
+                self.showAlert(message, dismissHandler: { _ in
                     cell.hideActions(animated: true)
                 })
             }
-            let later = NSAttributedString(string: "稍后处理", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(15)])
-            var laterAction = SwipeableCellAction(title: later, image: UIImage(named: "later-icon"), backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { Void in
+            let later = NSAttributedString(string: "稍后处理", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
+            var laterAction = SwipeableCellAction(title: later, image: UIImage(named: "later-icon"), backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { _ in
                 let message = "Did click “\(later.string)” at cell \(indexPath.row)"
-                self.showAlert(massage: message, dismissHandler: { Void in
+                self.showAlert(message, dismissHandler: { _ in
                     cell.hideActions(animated: true)
                 })
             }
@@ -165,31 +165,31 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
             return [deleteAction, laterAction]
 
         case 3:
-            let crossAction = SwipeableCellAction(title: nil, image: UIImage(named: "cross-icon"), backgroundColor: UIColor(red: 18 / 255, green: 191 / 255, blue: 41 / 255, alpha: 1)) { Void in
+            let crossAction = SwipeableCellAction(title: nil, image: UIImage(named: "cross-icon"), backgroundColor: UIColor(red: 18 / 255, green: 191 / 255, blue: 41 / 255, alpha: 1)) { _ in
                 let message = "Did click “Cross” at cell \(indexPath.row)"
-                self.showAlert(massage: message, dismissHandler: { Void in
+                self.showAlert(message, dismissHandler: { _ in
                     cell.hideActions(animated: true)
                 })
             }
-            let clockAction = SwipeableCellAction(title: nil, image: UIImage(named: "clock-icon"), backgroundColor: UIColor(red: 255 / 255, green: 255 / 255, blue: 89 / 255, alpha: 1)) { Void in
+            let clockAction = SwipeableCellAction(title: nil, image: UIImage(named: "clock-icon"), backgroundColor: UIColor(red: 255 / 255, green: 255 / 255, blue: 89 / 255, alpha: 1)) { _ in
                 let message = "Did click “Clock” at cell \(indexPath.row)"
-                self.showAlert(massage: message, dismissHandler: { Void in
+                self.showAlert(message, dismissHandler: { _ in
                     cell.hideActions(animated: true)
                 })
             }
-            let checkAction = SwipeableCellAction(title: nil, image: UIImage(named: "check-icon"), backgroundColor: UIColor(red: 255 / 255, green: 59 / 255, blue: 48 / 255, alpha: 1)) { Void in
+            let checkAction = SwipeableCellAction(title: nil, image: UIImage(named: "check-icon"), backgroundColor: UIColor(red: 255 / 255, green: 59 / 255, blue: 48 / 255, alpha: 1)) { _ in
                 let message = "Did click “Check” at cell \(indexPath.row)"
-                self.showAlert(massage: message, dismissHandler: { Void in
+                self.showAlert(message, dismissHandler: { _ in
                     cell.hideActions(animated: true)
                 })
             }
             return [crossAction, clockAction, checkAction]
 
         case 4:
-            let favorite = NSAttributedString(string: "收藏", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(16)])
-            var favoriteAction = SwipeableCellAction(title: favorite, image: nil, backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { Void in
+            let favorite = NSAttributedString(string: "收藏", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 16)])
+            var favoriteAction = SwipeableCellAction(title: favorite, image: nil, backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { _ in
                 let message = "Did click “\(favorite.string)” at cell \(indexPath.row)"
-                self.showAlert(massage: message, dismissHandler: { Void in
+                self.showAlert(message, dismissHandler: { _ in
                     cell.hideActions(animated: true)
                 })
             }
@@ -202,15 +202,14 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
     }
 
     // MARK: - SwipeableTableViewCell delegate
-    func swipeableCell(cell: SwipeableTableViewCell, scrollingToState state: SwipeableCellState) {
-        let cellState = state == .Closed ? "closing" : "opening"
+    func swipeableCell(_ cell: SwipeableTableViewCell, isScrollingToState state: SwipeableCellState) {
+        let cellState = state == .closed ? "closing" : "opening"
         let cellName = (cell.textLabel?.text)!
         print("“\(cellName)” is \(cellState)...")
     }
 
-    func swipeableCellDidEndScroll(cell: SwipeableTableViewCell) {
+    func swipeableCellDidEndScroll(_ cell: SwipeableTableViewCell) {
         let cellName = (cell.textLabel?.text)!
         print("“\(cellName)” did end scroll!")
     }
 }
-

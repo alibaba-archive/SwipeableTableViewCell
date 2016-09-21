@@ -10,7 +10,7 @@ import UIKit
 import SwipeableTableViewCell
 
 class BackgroundViewExampleViewController: UITableViewController {
-    private(set) var pushEnabled = false
+    fileprivate(set) var pushEnabled = false
 
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -19,52 +19,52 @@ class BackgroundViewExampleViewController: UITableViewController {
     }
 
     // MARK: - Helper
-    private func setupUI() {
+    fileprivate func setupUI() {
         tableView.tableFooterView = UIView()
         let switchView: UIView = {
             let titleView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 150, height: 40)))
-            titleView.backgroundColor = UIColor.clearColor()
+            titleView.backgroundColor = UIColor.clear
             let titleLabel = UILabel(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 99, height: 40)))
-            titleLabel.backgroundColor = UIColor.clearColor()
+            titleLabel.backgroundColor = UIColor.clear
             titleLabel.text = "Push Enabled"
-            titleLabel.font = UIFont.systemFontOfSize(14)
-            titleLabel.textColor = UIColor.redColor()
+            titleLabel.font = UIFont.systemFont(ofSize: 14)
+            titleLabel.textColor = UIColor.red
             titleView.addSubview(titleLabel)
             let pushSwitch = UISwitch()
             pushSwitch.frame.origin.x = 99
             pushSwitch.frame.origin.y = (40 - pushSwitch.frame.height) / 2
-            pushSwitch.on = false
-            pushSwitch.addTarget(self, action: #selector(BackgroundViewExampleViewController.pushSwitchValueChanged(_:)), forControlEvents: .ValueChanged)
+            pushSwitch.isOn = false
+            pushSwitch.addTarget(self, action: #selector(pushSwitchValueChanged(_:)), for: .valueChanged)
             titleView.addSubview(pushSwitch)
             return titleView
         }()
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: switchView)
 
         if #available(iOS 9, *) {
-            if traitCollection.forceTouchCapability == .Available {
-                registerForPreviewingWithDelegate(self, sourceView: view)
+            if traitCollection.forceTouchCapability == .available {
+                registerForPreviewing(with: self, sourceView: view)
             }
         }
     }
 
-    func pushSwitchValueChanged(sender: UISwitch) {
-        pushEnabled = sender.on
+    func pushSwitchValueChanged(_ sender: UISwitch) {
+        pushEnabled = sender.isOn
     }
 
     // MARK: - Table view data source and delegate
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 65
     }
 
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0: return "SwipeableCell with background view"
         case 1: return "UITableViewCell with background view"
@@ -72,15 +72,15 @@ class BackgroundViewExampleViewController: UITableViewController {
         }
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier(kBackgroundViewSwipeableCellID, forIndexPath: indexPath) as! BackgroundViewSwipeableCell
-            let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(15)])
-            var deleteAction = SwipeableCellAction(title: delete, image: UIImage(named: "delete-icon"), backgroundColor: UIColor(red: 255 / 255, green: 90 / 255, blue: 29 / 255, alpha: 1)) { Void in
+            let cell = tableView.dequeueReusableCell(withIdentifier: kBackgroundViewSwipeableCellID, for: indexPath) as! BackgroundViewSwipeableCell
+            let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
+            var deleteAction = SwipeableCellAction(title: delete, image: UIImage(named: "delete-icon"), backgroundColor: UIColor(red: 255 / 255, green: 90 / 255, blue: 29 / 255, alpha: 1)) { _ in
                 print("删除")
             }
-            let later = NSAttributedString(string: "稍后处理", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(15)])
-            var laterAction = SwipeableCellAction(title: later, image: UIImage(named: "later-icon"), backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { Void in
+            let later = NSAttributedString(string: "稍后处理", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
+            var laterAction = SwipeableCellAction(title: later, image: UIImage(named: "later-icon"), backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { _ in
                 print("稍后处理")
             }
             deleteAction.width = 100
@@ -90,32 +90,32 @@ class BackgroundViewExampleViewController: UITableViewController {
             cell.actions = [deleteAction, laterAction]
             return cell
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(kBackgroundViewCellID, forIndexPath: indexPath) as! BackgroundViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: kBackgroundViewCellID, for: indexPath) as! BackgroundViewCell
             return cell
         }
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if pushEnabled {
-            performSegueWithIdentifier("PushToViewController", sender: self)
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            performSegue(withIdentifier: "PushToViewController", sender: self)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 }
 
 @available(iOS 9.0, *)
 extension BackgroundViewExampleViewController: UIViewControllerPreviewingDelegate {
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        guard let indexPath = tableView.indexPathForRowAtPoint(location), cell = tableView.cellForRowAtIndexPath(indexPath) else {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRow(at: location), let cell = tableView.cellForRow(at: indexPath) else {
             return nil
         }
-        let previewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ViewController")
+        let previewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController")
         previewController.preferredContentSize = CGSize.zero
         previewingContext.sourceRect = cell.frame
         return previewController
     }
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
-        showViewController(viewControllerToCommit, sender: self)
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        show(viewControllerToCommit, sender: self)
     }
 }

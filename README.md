@@ -5,7 +5,7 @@ SwipeableTableViewCell is a quite easy-to-use UITableViewCell subclass which all
 
 ##How To Get Started
 ###Carthage
-Specify "SwipeableTableViewCell" in your Cartfile:
+Specify "SwipeableTableViewCell" in your ```Cartfile```:
 ```ogdl 
 github "teambition/SwipeableTableViewCell"
 ```
@@ -18,22 +18,22 @@ import SwipeableTableViewCell
 ```
 Configure cell in the data source like this:
 ```swift
-override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? SwipeableTableViewCell
+override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    var cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as? SwipeableTableViewCell
     if cell == nil {
-        cell = SwipeableTableViewCell(style: .Default, reuseIdentifier: "Cell")
+        cell = SwipeableTableViewCell(style: .default, reuseIdentifier: "Cell")
     }
 
     // assign delegate if needed
     cell!.delegate = self
 
     // configure cell swipe actions
-    let deleteTitle = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(15)])
-    var deleteAction = SwipeableCellAction(title: deleteTitle, image: UIImage(named: "delete-icon"), backgroundColor: UIColor.redColor()) { Void in
+    let deleteTitle = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
+    var deleteAction = SwipeableCellAction(title: deleteTitle, image: UIImage(named: "delete-icon"), backgroundColor: UIColor.red) { _ in
         // do something when "deleteAction" is selected
     }
-    let laterTitle = NSAttributedString(string: "稍后处理", attributes: [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.systemFontOfSize(15)])
-    var laterAction = SwipeableCellAction(title: laterTitle, image: UIImage(named: "later-icon"), backgroundColor: UIColor.blueColor()) { Void in
+    let laterTitle = NSAttributedString(string: "稍后处理", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
+    var laterAction = SwipeableCellAction(title: laterTitle, image: UIImage(named: "later-icon"), backgroundColor: UIColor.blue) { _ in
         // do something when "laterAction" is selected
     }
     deleteAction.width = 100
@@ -51,11 +51,11 @@ override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:
 
 ##### 2.  Implement delegate if needed
 ```swift
-func swipeableCell(cell: SwipeableTableViewCell, scrollingToState state: SwipeableCellState) {
+func swipeableCell(_ cell: SwipeableTableViewCell, isScrollingToState state: SwipeableCellState) {
     // do something
 }
 
-func swipeableCellSwipeEnabled(cell: SwipeableTableViewCell) -> Bool {
+func swipeableCellSwipeEnabled(_ cell: SwipeableTableViewCell) -> Bool {
     // cell swipe enabled or not, default value is true
 }
 
@@ -63,7 +63,7 @@ func allowMultipleCellsSwipedSimultaneously() -> Bool {
     // allow multiple cells swiped simultaneously or not, default value is false
 }
 
-func swipeableCellDidEndScroll(cell: SwipeableTableViewCell) {
+func swipeableCellDidEndScroll(_ cell: SwipeableTableViewCell) {
     // do something
 }
 ```
