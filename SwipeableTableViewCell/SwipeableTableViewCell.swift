@@ -85,8 +85,8 @@ open class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
             layoutIfNeeded()
         }
     }
-    fileprivate var containerView: UIView!
-    lazy var scrollView: SwipeableCellScrollView = {
+    open fileprivate(set) var containerView: UIView!
+    open fileprivate(set) lazy var scrollView: SwipeableCellScrollView = {
         let scrollView = SwipeableCellScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -502,8 +502,8 @@ open class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     }
 }
 
-class SwipeableCellScrollView: UIScrollView {
-    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+public class SwipeableCellScrollView: UIScrollView {
+    override public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == panGestureRecognizer {
             let gesture = gestureRecognizer as! UIPanGestureRecognizer
             let translation = gesture.translation(in: gesture.view)
@@ -512,7 +512,7 @@ class SwipeableCellScrollView: UIScrollView {
         return true
     }
 
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer is UIPanGestureRecognizer {
             let gesture = gestureRecognizer as! UIPanGestureRecognizer
             let yVelocity = gesture.velocity(in: gesture.view).y
