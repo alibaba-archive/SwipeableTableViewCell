@@ -1,17 +1,17 @@
-#SwipeableTableViewCell
+# SwipeableTableViewCell
 SwipeableTableViewCell is a quite easy-to-use UITableViewCell subclass which allows you to add multiple highly customizable swipe actions.
 
 ![Example](Gif/SwipeableTableViewCellExample.gif "SwipeableTableViewCellExample")
 
-##How To Get Started
-###Carthage
+## How To Get Started
+### Carthage
 Specify "SwipeableTableViewCell" in your ```Cartfile```:
 ```ogdl 
 github "teambition/SwipeableTableViewCell"
 ```
 
-###Usage
-##### 1. TableViewController
+### Usage
+#### 1. TableViewController
 Import "SwipeableTableViewCell":
 ```swift
 import SwipeableTableViewCell
@@ -49,7 +49,7 @@ override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexP
 }
 ```
 
-##### 2.  Implement delegate if needed
+#### 2.  Implement delegate if needed
 ```swift
 func swipeableCell(_ cell: SwipeableTableViewCell, isScrollingToState state: SwipeableCellState) {
     // do something
