@@ -83,7 +83,7 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let message = indexPath.row % 7 == 5 ? "Did select custom cell" : "Did select cell \(indexPath.row)"
-        showAlert(message) { _ in
+        showAlert(message) { 
 
         }
     }
@@ -108,17 +108,17 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
     fileprivate func actionsForCell(_ cell: SwipeableTableViewCell, indexPath: IndexPath) -> [SwipeableCellAction]? {
         switch indexPath.row % 7 {
         case 0, 5:
-            let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.white])
-            var deleteAction = SwipeableCellAction(title: delete, image: nil, backgroundColor: UIColor.red) { _ in
+            let delete = NSAttributedString(string: "删除", attributes: [.foregroundColor: UIColor.white])
+            var deleteAction = SwipeableCellAction(title: delete, image: nil, backgroundColor: UIColor.red) { 
                 let message = indexPath.row % 7 == 5 ? "Did click “\(delete.string)” on custom cell" : "Did click “\(delete.string)” on cell \(indexPath.row)"
-                self.showAlert(message, dismissHandler: { _ in
+                self.showAlert(message, dismissHandler: { 
                     cell.hideActions(animated: true)
                 })
             }
-            let more = NSAttributedString(string: "更多", attributes: [NSForegroundColorAttributeName: UIColor.white])
-            var moreAction = SwipeableCellAction(title: more, image: nil, backgroundColor: UIColor.lightGray) { _ in
+            let more = NSAttributedString(string: "更多", attributes: [.foregroundColor: UIColor.white])
+            var moreAction = SwipeableCellAction(title: more, image: nil, backgroundColor: UIColor.lightGray) { 
                 let message = indexPath.row % 7 == 5 ? "Did click “\(more.string)” on custom cell" : "Did click “\(more.string)” on cell \(indexPath.row)"
-                self.showAlert(message, dismissHandler: { _ in
+                self.showAlert(message, dismissHandler: { 
                     cell.hideActions(animated: true)
                 })
             }
@@ -127,15 +127,15 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
             return [deleteAction, moreAction]
 
         case 1:
-            var deleteAction = SwipeableCellAction(title: NSAttributedString(string: "Delete"), image: nil, backgroundColor: UIColor.red) { _ in
+            var deleteAction = SwipeableCellAction(title: NSAttributedString(string: "Delete"), image: nil, backgroundColor: UIColor.red) { 
                 let message = "Did click “Delete” at cell \(indexPath.row)"
-                self.showAlert(message, dismissHandler: { _ in
+                self.showAlert(message, dismissHandler: { 
                     cell.hideActions(animated: true)
                 })
             }
-            var moreAction = SwipeableCellAction(title: NSAttributedString(string: "More"), image: nil, backgroundColor: UIColor.lightGray) { _ in
+            var moreAction = SwipeableCellAction(title: NSAttributedString(string: "More"), image: nil, backgroundColor: UIColor.lightGray) { 
                 let message = "Did click “More” at cell \(indexPath.row)"
-                self.showAlert(message, dismissHandler: { _ in
+                self.showAlert(message, dismissHandler: { 
                     cell.hideActions(animated: true)
                 })
             }
@@ -144,17 +144,17 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
             return [deleteAction, moreAction]
 
         case 2:
-            let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
-            var deleteAction = SwipeableCellAction(title: delete, image: UIImage(named: "delete-icon"), backgroundColor: UIColor(red: 255 / 255, green: 90 / 255, blue: 29 / 255, alpha: 1)) { _ in
+            let delete = NSAttributedString(string: "删除", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 15)])
+            var deleteAction = SwipeableCellAction(title: delete, image: UIImage(named: "delete-icon"), backgroundColor: UIColor(red: 255 / 255, green: 90 / 255, blue: 29 / 255, alpha: 1)) { 
                 let message = "Did click “\(delete.string)” at cell \(indexPath.row)"
-                self.showAlert(message, dismissHandler: { _ in
+                self.showAlert(message, dismissHandler: { 
                     cell.hideActions(animated: true)
                 })
             }
-            let later = NSAttributedString(string: "稍后处理", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
-            var laterAction = SwipeableCellAction(title: later, image: UIImage(named: "later-icon"), backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { _ in
+            let later = NSAttributedString(string: "稍后处理", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 15)])
+            var laterAction = SwipeableCellAction(title: later, image: UIImage(named: "later-icon"), backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { 
                 let message = "Did click “\(later.string)” at cell \(indexPath.row)"
-                self.showAlert(message, dismissHandler: { _ in
+                self.showAlert(message, dismissHandler: { 
                     cell.hideActions(animated: true)
                 })
             }
@@ -165,31 +165,31 @@ class StylesExampleViewController: UITableViewController, SwipeableTableViewCell
             return [deleteAction, laterAction]
 
         case 3:
-            let crossAction = SwipeableCellAction(title: nil, image: UIImage(named: "cross-icon"), backgroundColor: UIColor(red: 18 / 255, green: 191 / 255, blue: 41 / 255, alpha: 1)) { _ in
+            let crossAction = SwipeableCellAction(title: nil, image: UIImage(named: "cross-icon"), backgroundColor: UIColor(red: 18 / 255, green: 191 / 255, blue: 41 / 255, alpha: 1)) { 
                 let message = "Did click “Cross” at cell \(indexPath.row)"
-                self.showAlert(message, dismissHandler: { _ in
+                self.showAlert(message, dismissHandler: { 
                     cell.hideActions(animated: true)
                 })
             }
-            let clockAction = SwipeableCellAction(title: nil, image: UIImage(named: "clock-icon"), backgroundColor: UIColor(red: 255 / 255, green: 255 / 255, blue: 89 / 255, alpha: 1)) { _ in
+            let clockAction = SwipeableCellAction(title: nil, image: UIImage(named: "clock-icon"), backgroundColor: UIColor(red: 255 / 255, green: 255 / 255, blue: 89 / 255, alpha: 1)) { 
                 let message = "Did click “Clock” at cell \(indexPath.row)"
-                self.showAlert(message, dismissHandler: { _ in
+                self.showAlert(message, dismissHandler: { 
                     cell.hideActions(animated: true)
                 })
             }
-            let checkAction = SwipeableCellAction(title: nil, image: UIImage(named: "check-icon"), backgroundColor: UIColor(red: 255 / 255, green: 59 / 255, blue: 48 / 255, alpha: 1)) { _ in
+            let checkAction = SwipeableCellAction(title: nil, image: UIImage(named: "check-icon"), backgroundColor: UIColor(red: 255 / 255, green: 59 / 255, blue: 48 / 255, alpha: 1)) { 
                 let message = "Did click “Check” at cell \(indexPath.row)"
-                self.showAlert(message, dismissHandler: { _ in
+                self.showAlert(message, dismissHandler: { 
                     cell.hideActions(animated: true)
                 })
             }
             return [crossAction, clockAction, checkAction]
 
         case 4:
-            let favorite = NSAttributedString(string: "收藏", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 16)])
-            var favoriteAction = SwipeableCellAction(title: favorite, image: nil, backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { _ in
+            let favorite = NSAttributedString(string: "收藏", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 16)])
+            var favoriteAction = SwipeableCellAction(title: favorite, image: nil, backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { 
                 let message = "Did click “\(favorite.string)” at cell \(indexPath.row)"
-                self.showAlert(message, dismissHandler: { _ in
+                self.showAlert(message, dismissHandler: { 
                     cell.hideActions(animated: true)
                 })
             }

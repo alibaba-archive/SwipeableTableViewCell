@@ -47,7 +47,7 @@ class BackgroundViewExampleViewController: UITableViewController {
         }
     }
 
-    func pushSwitchValueChanged(_ sender: UISwitch) {
+    @objc func pushSwitchValueChanged(_ sender: UISwitch) {
         pushEnabled = sender.isOn
     }
 
@@ -75,12 +75,12 @@ class BackgroundViewExampleViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: kBackgroundViewSwipeableCellID, for: indexPath) as! BackgroundViewSwipeableCell
-            let delete = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
-            var deleteAction = SwipeableCellAction(title: delete, image: UIImage(named: "delete-icon"), backgroundColor: UIColor(red: 255 / 255, green: 90 / 255, blue: 29 / 255, alpha: 1)) { _ in
+            let delete = NSAttributedString(string: "删除", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 15)])
+            var deleteAction = SwipeableCellAction(title: delete, image: UIImage(named: "delete-icon"), backgroundColor: UIColor(red: 255 / 255, green: 90 / 255, blue: 29 / 255, alpha: 1)) { 
                 print("删除")
             }
-            let later = NSAttributedString(string: "稍后处理", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
-            var laterAction = SwipeableCellAction(title: later, image: UIImage(named: "later-icon"), backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { _ in
+            let later = NSAttributedString(string: "稍后处理", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 15)])
+            var laterAction = SwipeableCellAction(title: later, image: UIImage(named: "later-icon"), backgroundColor: UIColor(red: 3 / 255, green: 169 / 255, blue: 244 / 255, alpha: 1)) { 
                 print("稍后处理")
             }
             deleteAction.width = 100

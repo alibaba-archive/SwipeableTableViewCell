@@ -81,7 +81,7 @@ class ActionItemView: UIView {
         }
     }
 
-    func didTapActionItemView(_ sender: Any) {
+    @objc func didTapActionItemView(_ sender: Any) {
         action()
     }
 }

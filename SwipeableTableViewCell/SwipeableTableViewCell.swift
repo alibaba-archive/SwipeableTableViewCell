@@ -353,7 +353,7 @@ open class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
 
         scrollView.insertSubview(clipView, at: 0)
         clipViewConstraint = NSLayoutConstraint(item: clipView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: 0)
-        clipViewConstraint.priority = UILayoutPriorityDefaultHigh
+        clipViewConstraint.priority = .defaultHigh
         trainingOffset = NSLayoutConstraint(item: clipView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: 0)
         addConstraint(NSLayoutConstraint(item: clipView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: clipView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0))
@@ -386,7 +386,7 @@ open class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     }
 
     // MARK: - Selector
-    func scrollViewTapped(_ gestureRecognizer: UIGestureRecognizer) {
+    @objc func scrollViewTapped(_ gestureRecognizer: UIGestureRecognizer) {
         if state == .closed {
             if let tableView = tableView {
                 if tableView.hasSwipedCells() {
@@ -405,7 +405,7 @@ open class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
         }
     }
 
-    func scrollViewLongPressed(_ gestureRecognizer: UIGestureRecognizer) {
+    @objc func scrollViewLongPressed(_ gestureRecognizer: UIGestureRecognizer) {
         switch gestureRecognizer.state {
         case .began:
             if shouldHighlight() && !isHighlighted {
