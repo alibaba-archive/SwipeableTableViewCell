@@ -19,4 +19,8 @@ class BackgroundViewSwipeableCell: SwipeableTableViewCell {
         selectedBackgroundView = UIView()
         selectedBackgroundView?.backgroundColor = kCellSelectedColor
     }
+
+    @IBAction func buttonTapped(_ sender: UIButton) {
+        print("OK Tapped!")
+    }
 }

@@ -21,7 +21,7 @@ class ActionItemView: UIView {
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .center
-        imageView.backgroundColor = UIColor.clear
+        imageView.backgroundColor = .clear
         imageView.isUserInteractionEnabled = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -29,14 +29,14 @@ class ActionItemView: UIView {
     lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
-        titleLabel.backgroundColor = UIColor.clear
+        titleLabel.backgroundColor = .clear
         titleLabel.isUserInteractionEnabled = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
     }()
 
     convenience init(action: SwipeableCellAction, index: Int) {
-        self.init(frame: CGRect.zero)
+        self.init(frame: .zero)
         tag = kActionItemViewTag
         translatesAutoresizingMaskIntoConstraints = false
 
@@ -57,7 +57,7 @@ class ActionItemView: UIView {
             imageView.image = image
             titleLabel.attributedText = title
             let contentView = UIView()
-            contentView.backgroundColor = UIColor.clear
+            contentView.backgroundColor = .clear
             contentView.translatesAutoresizingMaskIntoConstraints = false
             contentView.isUserInteractionEnabled = false
             contentView.addSubview(imageView)
@@ -92,7 +92,7 @@ class SwipeableCellActionsView: UIView {
     fileprivate var actionItemViewBackgroundColors = [UIColor]()
 
     convenience init(actions: [SwipeableCellAction]?, parentCell: SwipeableTableViewCell) {
-        self.init(frame: CGRect.zero)
+        self.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         self.cell = parentCell
         setActions(actions)

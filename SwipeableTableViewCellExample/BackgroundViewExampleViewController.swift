@@ -22,13 +22,13 @@ class BackgroundViewExampleViewController: UITableViewController {
     fileprivate func setupUI() {
         tableView.tableFooterView = UIView()
         let switchView: UIView = {
-            let titleView = UIView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 150, height: 40)))
-            titleView.backgroundColor = UIColor.clear
-            let titleLabel = UILabel(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 99, height: 40)))
-            titleLabel.backgroundColor = UIColor.clear
+            let titleView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 150, height: 40)))
+            titleView.backgroundColor = .clear
+            let titleLabel = UILabel(frame: CGRect(origin: .zero, size: CGSize(width: 99, height: 40)))
+            titleLabel.backgroundColor = .clear
             titleLabel.text = "Push Enabled"
-            titleLabel.font = UIFont.systemFont(ofSize: 14)
-            titleLabel.textColor = UIColor.red
+            titleLabel.font = .systemFont(ofSize: 14)
+            titleLabel.textColor = .red
             titleView.addSubview(titleLabel)
             let pushSwitch = UISwitch()
             pushSwitch.frame.origin.x = 99
@@ -110,7 +110,7 @@ extension BackgroundViewExampleViewController: UIViewControllerPreviewingDelegat
             return nil
         }
         let previewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController")
-        previewController.preferredContentSize = CGSize.zero
+        previewController.preferredContentSize = .zero
         previewingContext.sourceRect = cell.frame
         return previewController
     }

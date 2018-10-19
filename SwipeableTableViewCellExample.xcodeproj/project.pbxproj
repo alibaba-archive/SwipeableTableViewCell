@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D315960C2179AA90004E83A2 /* SwipeableTableViewCell.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D315960A2179AA90004E83A2 /* SwipeableTableViewCell.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D3C6AD701C1FBED500580522 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C6AD6F1C1FBED500580522 /* AppDelegate.swift */; };
 		D3C6AD721C1FBED500580522 /* StylesExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C6AD711C1FBED500580522 /* StylesExampleViewController.swift */; };
 		D3C6AD751C1FBED500580522 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C6AD731C1FBED500580522 /* Main.storyboard */; };
@@ -15,8 +16,6 @@
 		D3DB9C251D03FC28009797E6 /* BackgroundViewExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DB9C241D03FC28009797E6 /* BackgroundViewExampleViewController.swift */; };
 		D3DB9C271D040092009797E6 /* BackgroundViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DB9C261D040092009797E6 /* BackgroundViewCell.swift */; };
 		D3DB9C291D0400AF009797E6 /* BackgroundViewSwipeableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DB9C281D0400AF009797E6 /* BackgroundViewSwipeableCell.swift */; };
-		D3DB9C2E1D040C94009797E6 /* SwipeableTableViewCell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DB9C2D1D040C94009797E6 /* SwipeableTableViewCell.framework */; };
-		D3DB9C2F1D040C94009797E6 /* SwipeableTableViewCell.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D3DB9C2D1D040C94009797E6 /* SwipeableTableViewCell.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,7 +25,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D3DB9C2F1D040C94009797E6 /* SwipeableTableViewCell.framework in Embed Frameworks */,
+				D315960C2179AA90004E83A2 /* SwipeableTableViewCell.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -34,6 +33,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D315960A2179AA90004E83A2 /* SwipeableTableViewCell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwipeableTableViewCell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C6AD6C1C1FBED500580522 /* SwipeableTableViewCellExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeableTableViewCellExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C6AD6F1C1FBED500580522 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3C6AD711C1FBED500580522 /* StylesExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StylesExampleViewController.swift; sourceTree = "<group>"; };
@@ -44,7 +44,6 @@
 		D3DB9C241D03FC28009797E6 /* BackgroundViewExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundViewExampleViewController.swift; sourceTree = "<group>"; };
 		D3DB9C261D040092009797E6 /* BackgroundViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundViewCell.swift; sourceTree = "<group>"; };
 		D3DB9C281D0400AF009797E6 /* BackgroundViewSwipeableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundViewSwipeableCell.swift; sourceTree = "<group>"; };
-		D3DB9C2D1D040C94009797E6 /* SwipeableTableViewCell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = SwipeableTableViewCell.framework; path = "/Users/hongxin/Library/Developer/Xcode/DerivedData/SwipeableTableViewCell-gblinibffhattmcmnpegiazppjtf/Build/Products/Debug-iphoneos/SwipeableTableViewCell.framework"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +51,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3DB9C2E1D040C94009797E6 /* SwipeableTableViewCell.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +60,7 @@
 		D3C6AD631C1FBED500580522 = {
 			isa = PBXGroup;
 			children = (
-				D3DB9C2D1D040C94009797E6 /* SwipeableTableViewCell.framework */,
+				D315960A2179AA90004E83A2 /* SwipeableTableViewCell.framework */,
 				D3C6AD6E1C1FBED500580522 /* SwipeableTableViewCellExample */,
 				D3C6AD6D1C1FBED500580522 /* Products */,
 			);
@@ -120,12 +118,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = Teambition;
 				TargetAttributes = {
 					D3C6AD6B1C1FBED500580522 = {
 						CreatedOnToolsVersion = 7.2;
 						LastSwiftMigration = 0900;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -199,12 +198,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -253,12 +254,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -293,13 +296,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = SwipeableTableViewCellExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Teambition.SwipeableTableViewCellExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -307,13 +313,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = SwipeableTableViewCellExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Teambition.SwipeableTableViewCellExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

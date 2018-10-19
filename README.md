@@ -28,11 +28,11 @@ override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexP
     cell!.delegate = self
 
     // configure cell swipe actions
-    let deleteTitle = NSAttributedString(string: "删除", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
+    let deleteTitle = NSAttributedString(string: "删除", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 15)])
     var deleteAction = SwipeableCellAction(title: deleteTitle, image: UIImage(named: "delete-icon"), backgroundColor: UIColor.red) { _ in
         // do something when "deleteAction" is selected
     }
-    let laterTitle = NSAttributedString(string: "稍后处理", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.systemFont(ofSize: 15)])
+    let laterTitle = NSAttributedString(string: "稍后处理", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 15)])
     var laterAction = SwipeableCellAction(title: laterTitle, image: UIImage(named: "later-icon"), backgroundColor: UIColor.blue) { _ in
         // do something when "laterAction" is selected
     }

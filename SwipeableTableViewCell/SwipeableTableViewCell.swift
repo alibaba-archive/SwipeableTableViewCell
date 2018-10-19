@@ -123,7 +123,7 @@ open class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     fileprivate var isLayoutUpdating = false
 
     // MARK: - Life cycle
-    override public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureSwipeableCell()
     }
@@ -284,7 +284,7 @@ open class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
     }
 
     fileprivate func contentOffset(of state: SwipeableCellState) -> CGPoint {
-        return state == .swiped ? CGPoint(x: actionsView.frame.width, y: 0) : CGPoint.zero
+        return state == .swiped ? CGPoint(x: actionsView.frame.width, y: 0) : .zero
     }
 
     fileprivate func updateCell() {
@@ -367,10 +367,10 @@ open class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
 
     fileprivate func updateContainerViewBackgroundColor() {
         if isSelected || isHighlighted || state == .closed {
-            containerView.backgroundColor = UIColor.clear
+            containerView.backgroundColor = .clear
         } else {
-            if backgroundColor == UIColor.clear || backgroundColor == nil {
-                containerView.backgroundColor = UIColor.white
+            if backgroundColor == .clear || backgroundColor == nil {
+                containerView.backgroundColor = .white
             } else {
                 containerView.backgroundColor = backgroundColor
             }
@@ -428,7 +428,7 @@ open class SwipeableTableViewCell: UITableViewCell, UIScrollViewDelegate {
 
     // MARK: - UIScrollView delegate
     open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let currentLength = fabs(clipViewConstraint.constant)
+        let currentLength = abs(clipViewConstraint.constant)
         let totalLength = actionsView.frame.width
         var targetState: SwipeableCellState = .closed
 
@@ -507,7 +507,7 @@ public class SwipeableCellScrollView: UIScrollView {
         if gestureRecognizer == panGestureRecognizer {
             let gesture = gestureRecognizer as! UIPanGestureRecognizer
             let translation = gesture.translation(in: gesture.view)
-            return fabs(translation.y) <= fabs(translation.x)
+            return abs(translation.y) <= abs(translation.x)
         }
         return true
     }
@@ -516,7 +516,7 @@ public class SwipeableCellScrollView: UIScrollView {
         if gestureRecognizer is UIPanGestureRecognizer {
             let gesture = gestureRecognizer as! UIPanGestureRecognizer
             let yVelocity = gesture.velocity(in: gesture.view).y
-            return fabs(yVelocity) <= 0.25
+            return abs(yVelocity) <= 0.25
         }
         return true
     }
