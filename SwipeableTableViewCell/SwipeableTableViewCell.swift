@@ -523,7 +523,7 @@ public class SwipeableCellScrollView: UIScrollView {
 }
 
 public extension UITableView {
-    public func hideAllSwipeableCellsActions(animated: Bool) {
+    func hideAllSwipeableCellsActions(animated: Bool) {
         for cell in visibleCells {
             if let cell = cell as? SwipeableTableViewCell {
                 cell.hideActions(animated: animated)
@@ -531,7 +531,7 @@ public extension UITableView {
         }
     }
 
-    public func hasSwipedCells() -> Bool {
+    func hasSwipedCells() -> Bool {
         for cell in visibleCells {
             if let cell = cell as? SwipeableTableViewCell {
                 if cell.state == .swiped {
